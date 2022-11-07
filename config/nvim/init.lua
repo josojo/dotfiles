@@ -60,29 +60,27 @@ require("packer").startup(function(use)
 			require("telescope").load_extension("ui-select")
 		end,
 	}
-	use {
-		"nvim-treesitter/nvim-treesitter",
-		config = function ()
-			require("nvim-treesitter.configs").setup {
-				ensure_installed = {
-					"c",
-					"comment",
-					"fennel",
-					"javascript",
-					"lua",
-					"rust",
-					"typescript",
-				},
-				highlight = {enable = true},
-				matchup = {enable = true},
-			}
-		end,
-	}
+	-- use {
+	-- 	"nvim-treesitter/nvim-treesitter",
+	-- 	config = function ()
+	-- 		require("nvim-treesitter.configs").setup {
+	-- 			ensure_installed = {
+	-- 				"c",
+	-- 				"comment",
+	-- 				"fennel",
+	-- 				"javascript",
+	-- 				"lua",
+	-- 				"rust",
+	-- 				"typescript",
+	-- 			},
+	-- 			highlight = {enable = true},
+	-- 			matchup = {enable = true},
+	-- 		}
+	-- 	end,
+	-- }
 	use "tpope/vim-commentary"
   -- Packer can manage itself
   use("wbthomason/packer.nvim")
-  -- Collection of common configurations for the Nvim LSP client
-  use("neovim/nvim-lspconfig")
   -- Visualize lsp progress
   use({
     "j-hui/fidget.nvim",
@@ -113,11 +111,19 @@ require("packer").startup(function(use)
   -- Optional
   use("nvim-lua/popup.nvim")
   use("nvim-lua/plenary.nvim")
-  use("nvim-telescope/telescope.nvim")
+  use {
+	              "nvim-telescope/telescope.nvim",
+	              requires = {
+	                      "kyazdani42/nvim-web-devicons",
+	                      "nvim-lua/plenary.nvim",
+	              },
+	      }
+--   use("nvim-telescope/telescope.nvim")
 
   -- Some color scheme other then default
   use("arcticicestudio/nord-vim")
---   use("folke/tokyonight.nvim")
+  use("folke/tokyonight.nvim")
+  use("ayu-theme/ayu-vim")
 end)
 
 -- the first run will install packer and our plugins
@@ -126,8 +132,6 @@ if packer_bootstrap then
   return
 end
 
-vim.cmd([[ colorscheme nord ]])
--- vim.cmd([[ colorscheme tokyonight-night ]])
 
 
 vim.g.mapleader = ","
@@ -225,7 +229,7 @@ cmp.setup({
     ["<Tab>"] = cmp.mapping.select_next_item(),
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
-    ["<Space>"] = cmp.mapping.complete(),
+    ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
     ["<CR>"] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Insert,
@@ -252,6 +256,9 @@ vim.wo.signcolumn = "yes"
 vim.opt.updatetime = 100
 
 
+-- vim.cmd([[ colorscheme nord ]])
 -- TODO: make this prettier.
-vim.cmd [[call matchadd('ColorColumn', '\%81v.')]]
 
+vim.cmd[[colorscheme tokyonight ]]
+
+vim.cmd [[call matchadd('ColorColumn', '\%81v.')]]
