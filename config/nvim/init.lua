@@ -108,6 +108,7 @@ require("packer").startup(function(use)
   -- Adds extra functionality over rust analyzer
   use("simrat39/rust-tools.nvim")
 
+  use("lewis6991/gitsigns.nvim")
   -- Optional
   use("nvim-lua/popup.nvim")
   use("nvim-lua/plenary.nvim")
@@ -121,9 +122,7 @@ require("packer").startup(function(use)
 --   use("nvim-telescope/telescope.nvim")
 
   -- Some color scheme other then default
-  use("arcticicestudio/nord-vim")
   use("folke/tokyonight.nvim")
-  use("ayu-theme/ayu-vim")
 end)
 
 -- the first run will install packer and our plugins
@@ -132,10 +131,7 @@ if packer_bootstrap then
   return
 end
 
-
-
 vim.g.mapleader = ","
-
 
 -- Set completeopt to have a better completion experience
 -- :help completeopt
@@ -246,6 +242,38 @@ cmp.setup({
   },
 })
 
+
+require('gitsigns').setup ({
+  on_attach = function(bufnr)
+    local function map(mode, lhs, rhs, opts)
+        opts = vim.tbl_extend('force', {noremap = true, silent = true}, opts or {})
+        vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
+    end
+
+    -- Navigation
+    map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
+    map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
+
+    -- Actions
+    map('n', '<leader>hs', ':Gitsigns stage_hunk<CR>')
+    map('v', '<leader>hs', ':Gitsigns stage_hunk<CR>')
+    map('n', '<leader>hr', ':Gitsigns reset_hunk<CR>')
+    map('v', '<leader>hr', ':Gitsigns reset_hunk<CR>')
+    map('n', '<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
+    map('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>')
+    map('n', '<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
+    map('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>')
+    map('n', '<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
+    map('n', '<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
+    map('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>')
+    map('n', '<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
+    map('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
+
+    -- Text object
+    map('o', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+    map('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+  end
+})
 -- have a fixed column for the diagnostics to appear in
 -- this removes the jitter when warnings/errors flow in
 vim.wo.signcolumn = "yes"
@@ -255,9 +283,7 @@ vim.wo.signcolumn = "yes"
 -- set updatetime=300
 vim.opt.updatetime = 100
 
-
--- vim.cmd([[ colorscheme nord ]])
--- TODO: make this prettier.
+vim.opt.clipboard = 'unnamed'
 
 vim.cmd[[colorscheme tokyonight ]]
 
