@@ -7,7 +7,6 @@ set.vars {
 	loaded_ruby_provider = 0,
 	loaded_node_provider = 0,
 }
-
 set.opts {
 	number = true,
 	relativenumber = true,
@@ -107,6 +106,8 @@ require("packer").startup(function(use)
   use('hrsh7th/vim-vsnip')
   -- Adds extra functionality over rust analyzer
   use("simrat39/rust-tools.nvim")
+
+  use("jiangmiao/auto-pairs")
 
   use("lewis6991/gitsigns.nvim")
   -- Optional
@@ -242,7 +243,6 @@ cmp.setup({
   },
 })
 
-
 require('gitsigns').setup ({
   on_attach = function(bufnr)
     local function map(mode, lhs, rhs, opts)
@@ -274,6 +274,7 @@ require('gitsigns').setup ({
     map('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
   end
 })
+
 -- have a fixed column for the diagnostics to appear in
 -- this removes the jitter when warnings/errors flow in
 vim.wo.signcolumn = "yes"
