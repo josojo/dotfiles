@@ -38,6 +38,7 @@ require("packer").init({
 })
 require("packer").startup(function(use)
 
+	use "dense-analysis/ale"
 	use "andymass/vim-matchup"
 	use {
 		"folke/which-key.nvim",
