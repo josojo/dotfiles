@@ -38,6 +38,13 @@ local function setup()
 		}
 	}
 
+	lspconfig.pyright.setup{
+		on_attach = on_attach,
+		-- settings = {
+		-- 	["pyright.checkOnSave.command"] = "clippy",
+		-- }
+	}
+
 	lspconfig.denols.setup {
 		on_attach = on_attach,
 		init_options = {
