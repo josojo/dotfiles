@@ -108,7 +108,7 @@ require("packer").startup(function(use)
   -- Adds extra functionality over rust analyzer
   use("simrat39/rust-tools.nvim")
 
-  use("jiangmiao/auto-pairs")
+  use("windwp/nvim-autopairs")
 
   use("lewis6991/gitsigns.nvim")
   -- Optional
@@ -276,7 +276,19 @@ require('gitsigns').setup ({
     map('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
   end
 })
-
+-- put this to setup function and press <a-e> to use fast_wrap
+require("nvim-autopairs").setup {
+    fast_wrap = {  
+      map = '<C-e>',
+      chars = { '{', '[', '(', '"', "'" },
+      pattern = [=[[%'%"%>%]%)%}%,]]=],
+      end_key = '$',
+      keys = 'qwertyuiopzxcvbnmasdfghjkl',
+      check_comma = true,
+      highlight = 'Search',
+      highlight_grey='Comment'
+    },
+}
 -- have a fixed column for the diagnostics to appear in
 -- this removes the jitter when warnings/errors flow in
 vim.wo.signcolumn = "yes"
