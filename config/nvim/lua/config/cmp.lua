@@ -20,7 +20,14 @@ local function setup()
 		on_attach = on_attach,
 	}
 
-	cmp.denols.setup {
+	-- cmp.denols.setup {
+	-- 	on_attach = on_attach,
+	-- 	init_options = {
+	-- 		lint = true,
+	-- 	},
+	-- }
+	
+	cmp.tsserver.setup {
 		on_attach = on_attach,
 		init_options = {
 			lint = true,

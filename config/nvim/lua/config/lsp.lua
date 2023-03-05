@@ -45,7 +45,14 @@ local function setup()
 		-- }
 	}
 
-	lspconfig.denols.setup {
+	-- lspconfig.denols.setup {
+	-- 	on_attach = on_attach,
+	-- 	init_options = {
+	-- 		lint = true,
+	-- 	},
+	-- }
+	
+	lspconfig.tsserver.setup {
 		on_attach = on_attach,
 		init_options = {
 			lint = true,

@@ -114,6 +114,15 @@ require("packer").startup(function(use)
   -- Optional
   use("nvim-lua/popup.nvim")
   use("nvim-lua/plenary.nvim")
+  use({
+    "kylechui/nvim-surround",
+    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+    config = function()
+        require("nvim-surround").setup({
+            -- Configuration here, or leave empty to use defaults
+        })
+    end
+  })
 
   use {
 	              "nvim-telescope/telescope.nvim",
@@ -125,7 +134,7 @@ require("packer").startup(function(use)
 --   use("nvim-telescope/telescope.nvim")
 
   -- Some color scheme other then default
-  use("folke/tokyonight.nvim")
+  -- use("folke/tokyonight.nvim")
 end)
 
 -- the first run will install packer and our plugins
@@ -240,6 +249,7 @@ cmp.setup({
   sources = {
     { name = "nvim_lsp" },
     { name = "vsnip" },
+  	-- { name = "tsserver" },,
     { name = "path" },
     { name = "buffer" },
   },
@@ -299,6 +309,9 @@ vim.wo.signcolumn = "yes"
 vim.opt.updatetime = 100
 
 vim.opt.clipboard = 'unnamed'
+
+vim.g.copilot_no_tab_map = true
+vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
 
 vim.cmd[[colorscheme tokyonight ]]
 
