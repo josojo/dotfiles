@@ -1,1 +1,1 @@
-lua require('ft.ecmascript')
+lua require('ft.typescript')

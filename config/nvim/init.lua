@@ -108,7 +108,7 @@ require("packer").startup(function(use)
   -- Adds extra functionality over rust analyzer
   use("simrat39/rust-tools.nvim")
 
-  use("windwp/nvim-autopairs")
+  -- use("windwp/nvim-autopairs")
 
   use("lewis6991/gitsigns.nvim")
   -- Optional
@@ -134,7 +134,7 @@ require("packer").startup(function(use)
 --   use("nvim-telescope/telescope.nvim")
 
   -- Some color scheme other then default
-  -- use("folke/tokyonight.nvim")
+  use("folke/tokyonight.nvim")
 end)
 
 -- the first run will install packer and our plugins
@@ -287,18 +287,18 @@ require('gitsigns').setup ({
   end
 })
 -- put this to setup function and press <a-e> to use fast_wrap
-require("nvim-autopairs").setup {
-    fast_wrap = {  
-      map = '<C-e>',
-      chars = { '{', '[', '(', '"', "'" },
-      pattern = [=[[%'%"%>%]%)%}%,]]=],
-      end_key = '$',
-      keys = 'qwertyuiopzxcvbnmasdfghjkl',
-      check_comma = true,
-      highlight = 'Search',
-      highlight_grey='Comment'
-    },
-}
+-- require("nvim-autopairs").setup {
+--     fast_wrap = {  
+--       map = '<C-e>',
+--       chars = { '{', '[', '(', '"', "'" },
+--       pattern = [=[[%'%"%>%]%)%}%,]]=],
+--       end_key = '$',
+--       keys = 'qwertyuiopzxcvbnmasdfghjkl',
+--       check_comma = true,
+--       highlight = 'Search',
+--       highlight_grey='Comment'
+--     },
+-- }
 -- have a fixed column for the diagnostics to appear in
 -- this removes the jitter when warnings/errors flow in
 vim.wo.signcolumn = "yes"

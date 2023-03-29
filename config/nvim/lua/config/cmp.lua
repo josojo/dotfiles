@@ -27,12 +27,12 @@ local function setup()
 	-- 	},
 	-- }
 	
-	cmp.tsserver.setup {
-		on_attach = on_attach,
-		init_options = {
-			lint = true,
-		},
-	}
+	-- cmp.tsserver.setup {
+	-- 	on_attach = on_attach,
+	-- 	init_options = {
+	-- 		-- lint = true,
+	-- 	},
+	-- }
 end
 
 return {
