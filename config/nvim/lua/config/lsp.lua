@@ -46,8 +46,14 @@ local function setup()
 	}
 	lspconfig.gopls.setup{
 			on_attach = on_attach
-}
+	}
 
+	lspconfig.solidity_ls.setup{
+		cmd = { "npx", "@nomicfoundation/solidity-language-server", "--stdio" },
+		filetypes = { "solidity" },
+		settings = {},
+		on_attach = on_attach
+	}
 	-- lspconfig.denols.setup {
 	-- 	on_attach = on_attach,
 	-- 	init_options = {

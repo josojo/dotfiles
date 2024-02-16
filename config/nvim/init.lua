@@ -220,6 +220,7 @@ local opts = {
     },
   },
 }
+require("rust-tools").setup(opts)
 local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*.go",
@@ -228,10 +229,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
   group = format_sync_grp,
 })
-
 require("go").setup()
 
-require("rust-tools").setup(opts)
 
 -- " Setup Completion
 -- " See https://github.com/hrsh7th/nvim-cmp#basic-configuration
