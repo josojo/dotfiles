@@ -40,10 +40,13 @@ local function setup()
 
 	lspconfig.pyright.setup{
 		on_attach = on_attach,
-		-- settings = {
-		-- 	["pyright.checkOnSave.command"] = "clippy",
-		-- }
+		settings = {
+			["pyright.checkOnSave.command"] = "clippy",
+		}
 	}
+	lspconfig.gopls.setup{
+			on_attach = on_attach
+}
 
 	-- lspconfig.denols.setup {
 	-- 	on_attach = on_attach,
@@ -55,7 +58,7 @@ local function setup()
 	lspconfig.tsserver.setup {
 		on_attach = on_attach,
 		init_options = {
-			lint = true,
+			lint = false,
 		},
 	}
 end

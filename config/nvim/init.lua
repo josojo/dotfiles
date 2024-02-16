@@ -60,24 +60,24 @@ require("packer").startup(function(use)
 			require("telescope").load_extension("ui-select")
 		end,
 	}
-	-- use {
-	-- 	"nvim-treesitter/nvim-treesitter",
-	-- 	config = function ()
-	-- 		require("nvim-treesitter.configs").setup {
-	-- 			ensure_installed = {
-	-- 				"c",
-	-- 				"comment",
-	-- 				"fennel",
-	-- 				"javascript",
-	-- 				"lua",
-	-- 				"rust",
-	-- 				"typescript",
-	-- 			},
-	-- 			highlight = {enable = true},
-	-- 			matchup = {enable = true},
-	-- 		}
-	-- 	end,
-	-- }
+	use {
+		"nvim-treesitter/nvim-treesitter",
+		config = function ()
+			require("nvim-treesitter.configs").setup {
+				ensure_installed = {
+					"c",
+					"comment",
+					"fennel",
+					"javascript",
+					"lua",
+					"rust",
+					"typescript",
+				},
+				highlight = {enable = true},
+				matchup = {enable = true},
+			}
+		end,
+	}
 	use "tpope/vim-commentary"
   -- Packer can manage itself
   use("wbthomason/packer.nvim")
@@ -114,6 +114,9 @@ require("packer").startup(function(use)
   -- Optional
   use("nvim-lua/popup.nvim")
   use("nvim-lua/plenary.nvim")
+
+
+  use("ray-x/go.nvim")
   use({
     "kylechui/nvim-surround",
     tag = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -217,6 +220,16 @@ local opts = {
     },
   },
 }
+local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.go",
+  callback = function()
+   require('go.format').goimport()
+  end,
+  group = format_sync_grp,
+})
+
+require("go").setup()
 
 require("rust-tools").setup(opts)
 
