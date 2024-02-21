@@ -60,9 +60,9 @@ require("packer").startup(function(use)
 			require("telescope").load_extension("ui-select")
 		end,
 	}
-	use {
-		"nvim-treesitter/nvim-treesitter",
-		config = function ()
+	 use {
+	 	"nvim-treesitter/nvim-treesitter",
+	 	config = function ()
 			require("nvim-treesitter.configs").setup {
 				ensure_installed = {
 					"c",
@@ -78,6 +78,7 @@ require("packer").startup(function(use)
 			}
 		end,
 	}
+
 	use "tpope/vim-commentary"
   -- Packer can manage itself
   use("wbthomason/packer.nvim")
@@ -147,6 +148,9 @@ if packer_bootstrap then
 end
 
 vim.g.mapleader = ","
+
+vim.api.nvim_command('set commentstring=//%s')
+
 
 -- Set completeopt to have a better completion experience
 -- :help completeopt
