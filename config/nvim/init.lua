@@ -53,6 +53,7 @@ require("packer").startup(function(use)
 			require("config.lsp").setup()
 		end,
 	}
+	use "Julian/lean.nvim"
 	use {
 		"nvim-telescope/telescope-ui-select.nvim",
 		requires = "nvim-telescope/telescope.nvim",
@@ -107,7 +108,11 @@ require("packer").startup(function(use)
   -- Snippet engine
   use('hrsh7th/vim-vsnip')
   -- Adds extra functionality over rust analyzer
-  use("simrat39/rust-tools.nvim")
+  use({
+    "mrcjkb/rustaceanvim",
+    version = "^5",
+    ft = { "rust" },
+  })
 
   -- use("windwp/nvim-autopairs")
 
@@ -190,41 +195,35 @@ local function on_attach(client, buffer)
     vim.keymap.set("n", "g]", vim.diagnostic.goto_next, keymap_opts)
 end
 
--- Configure LSP through rust-tools.nvim plugin.
--- rust-tools will configure and enable certain LSP features for us.
--- See https://github.com/simrat39/rust-tools.nvim#configuration
-local opts = {
+-- Configure LSP through rustaceanvim plugin.
+-- See https://github.com/mrcjkb/rustaceanvim
+vim.g.rustaceanvim = {
   tools = {
-    runnables = {
-      use_telescope = true,
-    },
     inlay_hints = {
-      auto = true,
       show_parameter_hints = false,
       parameter_hints_prefix = "",
       other_hints_prefix = "",
     },
   },
-
-  -- all the opts to send to nvim-lspconfig
-  -- these override the defaults set by rust-tools.nvim
-  -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
   server = {
-    -- on_attach is a callback called when the language server attachs to the buffer
     on_attach = on_attach,
-    settings = {
-      -- to enable rust-analyzer settings visit:
-      -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
+    default_settings = {
       ["rust-analyzer"] = {
-        -- enable clippy on save
         checkOnSave = {
-          command = "+nightly fmt --version >/dev/null && cargo +nightly fmt --all || cargo fmt --all",
+          command = "clippy",
         },
       },
     },
   },
 }
-require("rust-tools").setup(opts)
+-- Configure leanls via vim.lsp.config (new API)
+vim.lsp.config('leanls', {
+  on_attach = on_attach,
+})
+vim.lsp.enable('leanls')
+require('lean').setup{
+  mappings = true,
+}
 local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*.go",
