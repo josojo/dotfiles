@@ -117,6 +117,10 @@ require("packer").startup(function(use)
   -- use("windwp/nvim-autopairs")
 
   use("lewis6991/gitsigns.nvim")
+  use {
+    "sindrets/diffview.nvim",
+    requires = "nvim-lua/plenary.nvim",
+  }
   -- Optional
   use("nvim-lua/popup.nvim")
   use("nvim-lua/plenary.nvim")

@@ -17,6 +17,13 @@ local function setup()
 			r = {"<cmd>Telescope grep_string<cr>", "String"},
 			p = {"<cmd>Telescope planets<cr>", "Planet"},
 		},
+		d = {
+			name = "diff",
+			o = {"<cmd>DiffviewOpen<cr>", "Open"},
+			m = {"<cmd>DiffviewOpen origin/main...HEAD<cr>", "vs Main"},
+			c = {"<cmd>DiffviewClose<cr>", "Close"},
+			h = {"<cmd>DiffviewFileHistory %<cr>", "File History"},
+		},
 		x = {
 			name = "indentation",
 			["2"] = {"<cmd>set expandtab shiftwidth=2 tabstop=2<cr>", "2-space"},
