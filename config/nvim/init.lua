@@ -211,6 +211,12 @@ vim.g.rustaceanvim = {
   },
   server = {
     on_attach = on_attach,
+    root_dir = function(filename, default)
+      if vim.startswith(filename, 'diffview://') then
+        return nil
+      end
+      return default(filename)
+    end,
     default_settings = {
       ["rust-analyzer"] = {
         checkOnSave = {
