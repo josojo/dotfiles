@@ -1,6 +1,10 @@
 local set = require("utils.set")
 local keys = require("which-key")
 
+-- rustaceanvim already manages rust-analyzer; disable ALE's LSP linters here
+-- to avoid duplicate rust-analyzer clients and duplicate inlay hints.
+vim.b.ale_disable_lsp = 1
+
 keys.register({
 	c = {
 		name = "cargo",

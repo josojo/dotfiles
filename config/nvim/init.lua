@@ -219,7 +219,7 @@ vim.g.rustaceanvim = {
     end,
     default_settings = {
       ["rust-analyzer"] = {
-        checkOnSave = {
+        check = {
           command = "clippy",
         },
       },

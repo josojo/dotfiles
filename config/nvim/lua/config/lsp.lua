@@ -38,16 +38,8 @@ local function setup()
 		end,
 	})
 
-	-- Configure LSP servers using vim.lsp.config (Neovim 0.11+)
-	vim.lsp.config.rust_analyzer = {
-		settings = {
-			["rust-analyzer"] = {
-				checkOnSave = {
-					command = "clippy",
-				},
-			},
-		},
-	}
+	-- Configure LSP servers using vim.lsp.config (Neovim 0.11+).
+	-- Rust is configured via rustaceanvim in init.lua.
 
 	vim.lsp.config.pyright = {
 		settings = {
@@ -69,7 +61,6 @@ local function setup()
 	}
 
 	-- Enable all configured servers
-	vim.lsp.enable('rust_analyzer')
 	vim.lsp.enable('pyright')
 	vim.lsp.enable('gopls')
 	vim.lsp.enable('solidity_ls')
