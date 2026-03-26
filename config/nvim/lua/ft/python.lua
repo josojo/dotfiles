@@ -1,6 +1,9 @@
 local set = require("utils.set")
 local keys = require("which-key")
 
+-- Pyright + ruff handle all linting/formatting via vim.lsp; ALE is disabled
+-- globally for Python in init.lua via g:ale_linters.
+
 keys.register({
 	p = {
 		name = "python",

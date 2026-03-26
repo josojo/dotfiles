@@ -6,6 +6,8 @@ set.vars {
 	loaded_perl_provider = 0,
 	loaded_ruby_provider = 0,
 	loaded_node_provider = 0,
+	-- Disable ALE for Python — Pyright + ruff handle linting via native LSP
+	ale_linters = { python = {} },
 }
 set.opts {
 	number = true,

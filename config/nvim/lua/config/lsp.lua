@@ -42,8 +42,45 @@ local function setup()
 	-- Rust is configured via rustaceanvim in init.lua.
 
 	vim.lsp.config.pyright = {
+		-- Automatically detect venv in common locations
+		before_init = function(_, config)
+			local venv_names = { ".venv", "venv", "env", "env36", ".env" }
+			for _, name in ipairs(venv_names) do
+				local venv_path = vim.fs.joinpath(config.root_dir or vim.fn.getcwd(), name)
+				if vim.fn.isdirectory(venv_path) == 1 then
+					config.settings.python.pythonPath = vim.fs.joinpath(venv_path, "bin", "python")
+					break
+				end
+			end
+		end,
 		settings = {
-			python = {},
+			python = {
+				analysis = {
+					-- Use standard type checking (catches real errors without being noisy)
+					typeCheckingMode = "standard",
+					-- Don't report missing imports as errors when packages are installed in venv
+					diagnosticSeverityOverrides = {
+						reportMissingImports = "warning",
+						reportMissingModuleSource = "none",
+					},
+					-- Auto-detect search paths
+					autoSearchPaths = true,
+					useLibraryCodeForTypes = true,
+				},
+			},
+		},
+	}
+
+	vim.lsp.config.ruff = {
+		capabilities = {
+			general = {
+				positionEncodings = { "utf-16" },
+			},
+		},
+		init_options = {
+			settings = {
+				lineLength = 120,
+			},
 		},
 	}
 
@@ -62,6 +99,7 @@ local function setup()
 
 	-- Enable all configured servers
 	vim.lsp.enable('pyright')
+	vim.lsp.enable('ruff')
 	vim.lsp.enable('gopls')
 	vim.lsp.enable('solidity_ls')
 	vim.lsp.enable('ts_ls')
