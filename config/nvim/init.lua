@@ -65,6 +65,7 @@ require("packer").startup(function(use)
 	}
 	 use {
 	 	"nvim-treesitter/nvim-treesitter",
+		run = ":TSUpdate",
 	 	config = function ()
 			require("nvim-treesitter.configs").setup {
 				ensure_installed = {
@@ -76,7 +77,10 @@ require("packer").startup(function(use)
 					"rust",
 					"typescript",
 				},
-				highlight = {enable = true},
+				highlight = {
+					enable = true,
+					disable = { "markdown" },
+				},
 				matchup = {enable = true},
 			}
 		end,
