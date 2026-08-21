@@ -10,20 +10,26 @@ dotlink() {
 		local dst="$HOME/$2"
 	fi
 
-	if [ ! -e "$dst" ]; then
+	if [ -L "$dst" ] && [ "$(readlink -f "$dst")" = "$(readlink -f "$src")" ]; then
+		echo "already linked '$dst'"
+	elif [ ! -e "$dst" ] && [ ! -L "$dst" ]; then
 		ln -s "$src" "$dst"
 		echo "linked '$src' to '$dst'"
 	else
-		echo "skipping $1: '$dst' already exists." >&2
+		echo "cannot link '$src': '$dst' already exists and points elsewhere" >&2
+		return 1
 	fi
 }
 
 gitinst() {
-	if [[ ! -e "$2" ]]; then
+	if [[ -d "$2/.git" ]]; then
+		echo "already installed '$1'"
+	elif [[ ! -e "$2" ]]; then
 		local remote="https://github.com/$1"
 		git clone "$remote" "$2"
 	else
-		echo "skipping $1: '$2' already exists." >&2
+		echo "cannot install '$1': '$2' exists but is not a git checkout" >&2
+		return 1
 	fi
 }
 

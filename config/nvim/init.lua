@@ -50,6 +50,12 @@ require("packer").startup(function(use)
 		end,
 	}
 	use {
+		"echasnovski/mini.icons",
+		config = function()
+			require("mini.icons").setup()
+		end,
+	}
+	use {
 		"neovim/nvim-lspconfig",
 		config = function ()
 			require("config.lsp").setup()
@@ -65,6 +71,7 @@ require("packer").startup(function(use)
 	}
 	 use {
 	 	"nvim-treesitter/nvim-treesitter",
+		branch = "master", -- main is an incompatible rewrite
 		run = ":TSUpdate",
 	 	config = function ()
 			require("nvim-treesitter.configs").setup {
@@ -201,8 +208,8 @@ local function on_attach(client, buffer)
     })
 
     -- " Goto previous/next diagnostic warning/error
-    vim.keymap.set("n", "g[", vim.diagnostic.goto_prev, keymap_opts)
-    vim.keymap.set("n", "g]", vim.diagnostic.goto_next, keymap_opts)
+    vim.keymap.set("n", "g[", function() vim.diagnostic.jump({ count = -1 }) end, keymap_opts)
+    vim.keymap.set("n", "g]", function() vim.diagnostic.jump({ count = 1 }) end, keymap_opts)
 end
 
 -- Configure LSP through rustaceanvim plugin.
@@ -237,7 +244,7 @@ vim.lsp.config('leanls', {
   on_attach = on_attach,
 })
 vim.lsp.enable('leanls')
-require('lean').setup{
+vim.g.lean_config = {
   mappings = true,
 }
 local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})

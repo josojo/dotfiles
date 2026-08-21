@@ -3,6 +3,12 @@ local keys = require("which-key")
 local function on_attach(client, buffer)
 	vim.bo[buffer].omnifunc = "v:lua.vim.lsp.omnifunc"
 
+	-- Keep the primary definition shortcut independent of which-key registration.
+	vim.keymap.set("n", "<leader>ad", vim.lsp.buf.definition, {
+		buffer = buffer,
+		desc = "LSP: go to definition",
+	})
+
 	keys.register({
 		a = {
 			name = "lsp",
@@ -20,8 +26,8 @@ local function on_attach(client, buffer)
 			r = {"<cmd>Telescope lsp_references<cr>", "References"},
 			s = {"<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols"},
 			S = {"<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace Symbols"},
-			["["] = {"<cmd>lua vim.diagnostic.goto_prev()<cr>", "Previous Diagnostic" },
-			["]"] = {"<cmd>lua vim.diagnostic.goto_next()<cr>", "Next Diagnostic" },
+			["["] = {"<cmd>lua vim.diagnostic.jump({ count = -1 })<cr>", "Previous Diagnostic" },
+			["]"] = {"<cmd>lua vim.diagnostic.jump({ count = 1 })<cr>", "Next Diagnostic" },
 		}
 	}, {
 		prefix = "<leader>",
