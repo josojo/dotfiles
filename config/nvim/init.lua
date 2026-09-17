@@ -1,4 +1,21 @@
+-- Copy from SSH sessions to the local terminal clipboard (Neovim 0.10+).
+if (vim.env.SSH_TTY or vim.env.SSH_CONNECTION) and vim.fn.has("nvim-0.10") == 1 then
+	local osc52 = require("vim.ui.clipboard.osc52")
+	vim.g.clipboard = {
+		name = "OSC 52",
+		copy = {
+			["+"] = osc52.copy("+"),
+			["*"] = osc52.copy("*"),
+		},
+		paste = {
+			["+"] = osc52.paste("+"),
+			["*"] = osc52.paste("*"),
+		},
+	}
+end
+
 local set = require("utils.set")
+require("utils.treesitter_compat").setup()
 
 set.vars {
 	loaded_python_provider = 0,
@@ -34,6 +51,9 @@ local ensure_packer = function()
 end
 
 local packer_bootstrap = ensure_packer()
+
+-- Packer still uses the old name, removed in newer Neovim versions.
+vim.tbl_islist = vim.tbl_islist or vim.islist
 
 require("packer").init({
   autoremove = true,
@@ -164,6 +184,11 @@ require("packer").startup(function(use)
 end)
 
 -- the first run will install packer and our plugins
+-- The installer runs PackerSync after startup; plugins may not exist yet.
+if vim.g.dotfiles_install then
+  return
+end
+
 if packer_bootstrap then
   require("packer").sync()
   return

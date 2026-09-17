@@ -3,10 +3,20 @@ local keys = require("which-key")
 local function on_attach(client, buffer)
 	vim.bo[buffer].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-	-- Keep the primary definition shortcut independent of which-key registration.
-	vim.keymap.set("n", "<leader>ad", vim.lsp.buf.definition, {
+	-- Register navigation directly so it also works without which-key.
+	for _, lhs in ipairs({ "<leader>gd", "gd", "<leader>ad" }) do
+		vim.keymap.set("n", lhs, vim.lsp.buf.definition, {
+			buffer = buffer,
+			desc = "LSP: go to definition",
+		})
+	end
+	vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {
 		buffer = buffer,
-		desc = "LSP: go to definition",
+		desc = "LSP: references",
+	})
+	vim.keymap.set("n", "K", vim.lsp.buf.hover, {
+		buffer = buffer,
+		desc = "LSP: hover documentation",
 	})
 
 	keys.register({
